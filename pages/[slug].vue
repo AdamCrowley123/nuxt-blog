@@ -1,14 +1,12 @@
-<script setup>
-const { params } = useRoute()
-const { data: article } = await useAsyncData(`article-${params.slug}`, () =>
-  queryContent(params.slug).findOne()
-)
-</script>
-
 <template>
-  <article v-if="article">
-    <h1>{{ article.title }}</h1>
-    <p>{{ article.description }}</p>
-    <ContentRenderer :value="article" />
-  </article>
+  <div class="prose mx-auto">
+    <h1>{{ post.title }}</h1>
+    <p class="text-gray-500">{{ post.date }}</p>
+    <ContentDoc />
+  </div>
 </template>
+
+<script setup>
+const { params } = useRoute();
+const { data: post } = await useAsyncData(params.slug, () => queryContent(`/stories/${params.slug}`).findOne());
+</script>
